@@ -1,4 +1,4 @@
-def repo="https://shailendra14k.github.io/sample-helm-chart/"
+def repo="https://github.com/Akhil-vellur/sample-helm-chart.git/"
 pipeline{
 		agent{
 			label 'helm'
@@ -7,14 +7,14 @@ pipeline{
 				
                 stage("add Repo") {
                         steps {
-                               sh "helm repo add shailendra ${repo}"
+                               sh "helm repo add helm-test ${repo}"
                             }
                     }
 				stage("Deploy to Dev") {
                         steps {
                             script{
 					openshift.withCluster(){
-                                        sh "helm upgrade --install helm-app shailendra/sample-app --values dev/values.yaml -n dev --wait"
+                                        sh "helm upgrade --install helm-app Akhil-vellur/sample-app --values dev/values.yaml -n dev --wait"
                                     }
                                 }
                             }
@@ -23,7 +23,7 @@ pipeline{
                         steps {
                             script{
 					openshift.withCluster(){
-                                        sh "helm upgrade --install helm-app shailendra/sample-app --values uat/values.yaml -n uat --wait"
+                                        sh "helm upgrade --install helm-app Akhil-vellur/sample-app --values uat/values.yaml -n uat --wait"
                                     }
                                 }
                             }
