@@ -1,10 +1,20 @@
 def repo="https://github.com/Akhil-vellur/sample-helm-chart.git/"
-pipeline{
-		agent{
-			label 'helm'
-		}
-		stages{
-				
+pipeline {
+  agent {
+    kubernetes {
+      label 'helm-pod'
+      containerTemplate {
+        name 'helm'
+        image 'wardviaene/helm-s3'
+        ttyEnabled true
+        command 'cat'
+      }
+    }
+  }
+  stages {
+    stage('Run helm') {
+      steps {
+        container('helm')
                 stage("add Repo") {
                         steps {
                                sh "helm repo add helm-test ${repo}"
